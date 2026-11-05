@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diwali Greetings</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #160d2d;
+      color: #f8e7b0;
+      font-family: Georgia, "Times New Roman", serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .site-wrap {
+      width: min(100%, 1000px);
+      padding: 14px;
+    }
+    .canva-frame {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-top: 100%;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.35);
+      background: #21123d;
+    }
+    .canva-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .music-button {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 10;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 18px;
+      border: 1px solid #f5d77b;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f7e3a0, #c89535);
+      color: #29163d;
+      font: 600 15px/1.1 Arial, sans-serif;
+      box-shadow: 0 5px 18px rgba(0,0,0,.35);
+      cursor: pointer;
+    }
+    .music-button:hover { filter: brightness(1.06); }
+    .music-button:focus-visible { outline: 3px solid white; outline-offset: 3px; }
+    .note {
+      margin: 0 14px 18px;
+      color: #e9d9a8;
+      font: 12px/1.4 Arial, sans-serif;
+      text-align: center;
+      opacity: .85;
+    }
+    @media (max-width: 600px) {
+      .site-wrap { padding: 0; }
+      .canva-frame { border-radius: 0; }
+      .music-button { right: 14px; bottom: 14px; padding: 11px 15px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="site-wrap">
+    <div class="canva-frame">
+      <iframe
+        loading="lazy"
+        src="https://www.canva.com/design/DAHaBYuA5fw/93lzjF9wVy7wJf96zLTzdw/view?embed"
+        allowfullscreen
+        title="Diwali greetings website">
+      </iframe>
+    </div>
+  </main>
+
+  <p class="note">Tap the music button to enjoy the festive background music.</p>
+
+  <audio id="diwaliAudio" preload="auto" loop>
+    <source src="diwali-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-button" id="musicButton" type="button" aria-pressed="false">
+    <span aria-hidden="true">♫</span>
+    <span id="buttonText">Play Music</span>
+  </button>
+
+  <script>
+    const audio = document.getElementById("diwaliAudio");
+    const button = document.getElementById("musicButton");
+    const buttonText = document.getElementById("buttonText");
+
+    button.addEventListener("click", async () => {
+      if (audio.paused) {
+        try {
+          await audio.play();
+          buttonText.textContent = "Pause Music";
+          button.setAttribute("aria-pressed", "true");
+        } catch (error) {
+          buttonText.textContent = "Tap to Play";
+          console.error("Audio could not be played:", error);
+        }
+      } else {
+        audio.pause();
+        buttonText.textContent = "Play Music";
+        button.setAttribute("aria-pressed", "false");
+      }
+    });
+
+    audio.addEventListener("ended", () => {
+      buttonText.textContent = "Play Music";
+      button.setAttribute("aria-pressed", "false");
+    });
+  </script>
+</body>
+</html>
